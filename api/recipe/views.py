@@ -2,7 +2,7 @@ from core.models import Recipe, Tag, Ingredient
 from recipe import serializers
 from rest_framework import viewsets, mixins, status
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, BasePermission
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from drf_spectacular.utils import (
@@ -11,6 +11,19 @@ from drf_spectacular.utils import (
     OpenApiParameter,
     OpenApiTypes,
 )
+
+
+class AllowUnauthenticatedListRetrieve(BasePermission):
+    """
+    Custom permission to allow unauthenticated users to access list and retrieve actions.
+    """
+
+    def has_permission(self, request, view):
+        # Allow unauthenticated users for list and retrieve actions
+        if view.action in ["list", "retrieve"]:
+            return True
+        # For other actions, let the other permissions decide
+        return request.user and request.user.is_authenticated
 
 
 @extend_schema_view(
@@ -35,7 +48,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.RecipeDetailSerializer
     queryset = Recipe.objects.all()
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowUnauthenticatedListRetrieve | IsAuthenticated]
 
     def _params_to_ints(self, qs):
         """Convert a list of strings to integers."""
@@ -53,7 +66,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
             ingredient_ids = self._params_to_ints(ingredients)
             queryset = queryset.filter(ingredients__id__in=ingredient_ids)
 
-        return queryset.filter(user=self.request.user).order_by("-id").distinct()
+        if self.request.user.is_authenticated:
+            return queryset.filter(user=self.request.user).order_by("-id").distinct()
+        else:
+            return queryset.order_by("-id").distinct()
 
     def get_serializer_class(self):
         """Return the serializer class for request."""
