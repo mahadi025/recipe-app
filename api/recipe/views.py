@@ -65,7 +65,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
         if ingredients:
             ingredient_ids = self._params_to_ints(ingredients)
             queryset = queryset.filter(ingredients__id__in=ingredient_ids)
-
         if self.request.user.is_authenticated:
             return queryset.filter(user=self.request.user).order_by("-id").distinct()
         else:
@@ -118,7 +117,7 @@ class BaseRecipeAttrViewSet(
     """Base viewset for recipe attributes."""
 
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowUnauthenticatedListRetrieve | IsAuthenticated]
 
     def get_queryset(self):
         """Filter queryset to authenticated user."""
@@ -126,8 +125,10 @@ class BaseRecipeAttrViewSet(
         queryset = self.queryset
         if assigned_only:
             queryset = queryset.filter(recipe__isnull=False)
-
-        return queryset.filter(user=self.request.user).order_by("-name").distinct()
+        if self.request.user.is_authenticated:
+            return queryset.filter(user=self.request.user).order_by("-name").distinct()
+        else:
+            return queryset.order_by("-name").distinct()
 
 
 class TagViewSet(BaseRecipeAttrViewSet):
