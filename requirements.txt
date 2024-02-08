@@ -12,5 +12,4 @@ tzdata
 urllib3
 asgiref
 certifi
-charset-normalize
 idna
