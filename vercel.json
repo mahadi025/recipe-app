@@ -5,7 +5,7 @@
       "use": "@vercel/python",
       "config": {
         "runtime": "python3.8",
-        "buildCommand": "pip install -r requirements.vercel.txt && vercel-build-command"
+        "buildCommand": "pip install -r api/requirements.vercel.txt && vercel-build-command"
       }
     }
   ],
