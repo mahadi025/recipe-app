@@ -2,11 +2,7 @@
   "builds": [
     {
       "src": "api/src/wsgi.py",
-      "use": "@vercel/python",
-      "config": {
-        "runtime": "python3.8",
-        "buildCommand": "pip install -r api/requirements.vercel.txt && vercel-build-command"
-      }
+      "use": "@vercel/python"
     }
   ],
   "routes": [

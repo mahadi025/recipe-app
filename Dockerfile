@@ -3,7 +3,7 @@ LABEL maintainer="https://mahadi025.github.io"
 
 ENV PYTHONUNBUFFERED 1
 
-COPY ./requirements.txt /tmp/requirements.txt
+COPY ./requirements.docker.txt /tmp/requirements.txt
 COPY ./requirements.dev.txt /tmp/requirements.dev.txt
 COPY ./api /app
 WORKDIR /app
