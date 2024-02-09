@@ -1,0 +1,17 @@
+Django
+djangorestframework
+psycopg2-binary
+drf-spectacular
+Pillow
+django-cors-headers
+python-dotenv
+asgiref
+certifi
+charset-normalizer
+idna
+pytz
+requests
+sqlparse
+typing_extensions
+tzdata
+urllib3
