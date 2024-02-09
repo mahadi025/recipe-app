@@ -27,7 +27,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", "changeme")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*", ".vercel.app", ".netlify.app"]
+ALLOWED_HOSTS = []
 ALLOWED_HOSTS.extend(
     filter(
         None,
