@@ -9,8 +9,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { RecipeListComponent } from './recipe/recipe-list/recipe-list.component';
-import { RecipeComponent } from './recipe/recipe/recipe.component';
 import { SharedModule } from './_modules/shared.module';
+import { RecipeCardComponent } from './recipe/recipe-card/recipe-card.component';
+import { RecipeDetailsComponent } from './recipe/recipe-details/recipe-details.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { SharedModule } from './_modules/shared.module';
     RegisterComponent,
     HomeComponent,
     RecipeListComponent,
-    RecipeComponent,
+    RecipeCardComponent,
+    RecipeDetailsComponent,
   ],
   imports: [
     BrowserModule,
