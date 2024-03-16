@@ -48,7 +48,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.RecipeDetailSerializer
     queryset = Recipe.objects.all()
     authentication_classes = [TokenAuthentication]
-    permission_classes = [AllowUnauthenticatedListRetrieve | IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def _params_to_ints(self, qs):
         """Convert a list of strings to integers."""
