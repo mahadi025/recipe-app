@@ -1,0 +1,9 @@
+<div class="card mb-4" *ngIf="recipe">
+    <div class="card-img-wrapper">
+        <img [src]="recipe.image ? recipe.image : 'assets/recipe.jpg'" alt="recipe image" class="card-img-top">
+    </div>
+    <div class="card-body p-1">
+        <h6 class="card-title text-center mb-1">{{recipe.title}}</h6>
+        <p class="card-text text-muted text-center">{{recipe.description}}</p>
+    </div>
+</div>
