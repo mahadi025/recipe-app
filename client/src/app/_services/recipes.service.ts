@@ -12,27 +12,10 @@ export class RecipesService {
   constructor(private http: HttpClient) {}
 
   getRecipes() {
-    return this.http.get<Recipe[]>(
-      this.baseUrl + 'recipe/recipes',
-      this.getHttpOptions()
-    );
+    return this.http.get<Recipe[]>(this.baseUrl + 'recipe/recipes');
   }
 
-  getRecipe(id: number) {
-    return this.http.get<Recipe>(
-      this.baseUrl + 'recipe/recipes/' + id,
-      this.getHttpOptions()
-    );
-  }
-
-  getHttpOptions() {
-    const userString = localStorage.getItem('user');
-    if (!userString) return;
-    const user = JSON.parse(userString);
-    return {
-      headers: new HttpHeaders({
-        Authorization: 'Token ' + user.token,
-      }),
-    };
+  getRecipe(id: string) {
+    return this.http.get<Recipe>(this.baseUrl + 'recipe/recipes/' + id);
   }
 }

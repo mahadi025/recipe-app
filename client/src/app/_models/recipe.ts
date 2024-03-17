@@ -2,7 +2,7 @@ import { Ingredient } from './ingredient';
 import { Tag } from './tag';
 
 export interface Recipe {
-  id: number;
+  id: string;
   title: string;
   time_minutes: number;
   price: string;
