@@ -1,1 +1,37 @@
-<p>recipe-details works!</p>
+<div class="row">
+    <div class="col-6">
+        <div class="card text-dark bg-secondary">
+            <img src="{{recipe?.image || './assets/recipe.jpg'}}" alt="" class="card-img-top img-thumbnail">
+            <div class="card-body">
+                <div>
+                    <p><strong>Recipe Name: </strong>{{recipe?.title}}</p>
+                </div>
+                <div>
+                    <p><strong>Time: </strong>{{recipe?.time_minutes}} minutes</p>
+                </div>
+                <div>
+                    <p><strong>Price: </strong>{{recipe?.price}}$</p>
+                </div>
+                <div>
+                    <p><strong>Link: </strong>{{recipe?.link}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 bg-light text-dark">
+        <tabset class="recipe-tabset" #recipeTabs>
+            <tab heading="Description">
+                <h4>Description for how to make {{recipe?.title}}</h4>
+                <p>{{recipe?.description}}</p>
+            </tab>
+            <tab heading="Tags">
+                <h4>Tag</h4>
+                <p *ngFor="let tag of recipe?.tags">{{tag.name}}</p>
+            </tab>
+            <tab heading="Ingredients">
+                <h4>Ingredients for this recipe</h4>
+                <p *ngFor="let ingredient of recipe?.ingredients">{{ingredient.name}}</p>
+            </tab>
+        </tabset>
+    </div>
+</div>

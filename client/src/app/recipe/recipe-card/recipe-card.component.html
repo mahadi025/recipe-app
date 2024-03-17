@@ -1,9 +1,12 @@
-<div class="card mb-4" *ngIf="recipe">
+<div class="card mb-4 bg-warning" *ngIf="recipe">
     <div class="card-img-wrapper">
         <img [src]="recipe.image ? recipe.image : 'assets/recipe.jpg'" alt="recipe image" class="card-img-top">
+        <ul class="list-inline recipe-icons animate text-center">
+            <button routerLink="/recipes/{{recipe.id}}" class="btn btn-primary"><i class="fa fa-apple"></i></button>
+        </ul>
     </div>
     <div class="card-body p-1">
-        <h6 class="card-title text-center mb-1">{{recipe.title}}</h6>
-        <p class="card-text text-muted text-center">{{recipe.description}}</p>
+        <h6 class="card-title text-center mb-1 text-dark">{{recipe.title}}</h6>
+        <p class="card-text text-center text-dark">{{recipe.description}}</p>
     </div>
 </div>
