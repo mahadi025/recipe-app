@@ -57,7 +57,7 @@ class PrivateTagsApiTests(TestCase):
         """Test list of tags is not limited to authenticated user."""
         user2 = create_user(email="user2@example.com")
         Tag.objects.create(user=user2, name="Fruity")
-        tag = Tag.objects.create(user=self.user, name="Comfort Food")
+        tag = Tag.objects.create(user=self.user, name="Comfort Food")  # noqa
 
         res = self.client.get(TAGS_URL)
 
