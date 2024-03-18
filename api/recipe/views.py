@@ -48,7 +48,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.RecipeDetailSerializer
     queryset = Recipe.objects.all()
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowUnauthenticatedListRetrieve | IsAuthenticated]
 
     def _params_to_ints(self, qs):
         """Convert a list of strings to integers."""
@@ -65,10 +65,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         if ingredients:
             ingredient_ids = self._params_to_ints(ingredients)
             queryset = queryset.filter(ingredients__id__in=ingredient_ids)
-        if self.request.user.is_authenticated:
-            return queryset.filter(user=self.request.user).order_by("-id").distinct()
-        else:
-            return queryset.order_by("-id").distinct()
+        return queryset.order_by("-id").distinct()
 
     def get_serializer_class(self):
         """Return the serializer class for request."""
@@ -82,6 +79,50 @@ class RecipeViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         """Create a new recipe."""
         serializer.save(user=self.request.user)
+
+    def update(self, request, *args, **kwargs):
+        """Update a recipe."""
+        instance = self.get_object()
+        if instance.user == request.user:
+            serializer = self.get_serializer(instance, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(
+                {"error": "You do not have permission to update this recipe."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+    def partial_update(self, request, *args, **kwargs):
+        """Partially update a recipe."""
+        instance = self.get_object()
+        if instance.user == request.user:
+            serializer = self.get_serializer(instance, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(
+                {"error": "You do not have permission to update this recipe."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+    def destroy(self, request, *args, **kwargs):
+        """Delete a recipe."""
+        instance = self.get_object()
+        if instance.user == request.user:
+            self.perform_destroy(instance)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response(
+                {"error": "You do not have permission to update this recipe."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
 
     @action(methods=["POST"], detail=True, url_path="upload-image")
     def upload_image(self, request, pk=None):
@@ -125,10 +166,51 @@ class BaseRecipeAttrViewSet(
         queryset = self.queryset
         if assigned_only:
             queryset = queryset.filter(recipe__isnull=False)
-        if self.request.user.is_authenticated:
-            return queryset.filter(user=self.request.user).order_by("-name").distinct()
+        return queryset.order_by("-name").distinct()
+
+    def update(self, request, *args, **kwargs):
+        """Update a attributes."""
+        instance = self.get_object()
+        if instance.user == request.user:
+            serializer = self.get_serializer(instance, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return queryset.order_by("-name").distinct()
+            return Response(
+                {"error": "You do not have permission to update this attribute."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+    def partial_update(self, request, *args, **kwargs):
+        """Partially update a recipe."""
+        instance = self.get_object()
+        if instance.user == request.user:
+            serializer = self.get_serializer(instance, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(
+                {"error": "You do not have permission to update this attribute."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+    def destroy(self, request, *args, **kwargs):
+        """Delete a attributes."""
+        instance = self.get_object()
+        if instance.user == request.user:
+            self.perform_destroy(instance)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response(
+                {"error": "You do not have permission to update this attribute."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
 
 
 class TagViewSet(BaseRecipeAttrViewSet):
