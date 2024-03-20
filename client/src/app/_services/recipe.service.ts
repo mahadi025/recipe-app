@@ -18,4 +18,8 @@ export class RecipeService {
   getRecipe(id: string) {
     return this.http.get<Recipe>(this.baseUrl + 'recipe/recipes/' + id);
   }
+
+  updateRecipe(id: string, recipe: Recipe) {
+    return this.http.patch(this.baseUrl + `recipe/recipes/${id}/`, recipe);
+  }
 }

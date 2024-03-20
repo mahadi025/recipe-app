@@ -1,19 +1,22 @@
-<div class="row">
+<div class="row" *ngIf="recipe">
     <div class="col-6">
         <div class="card text-dark bg-secondary">
-            <img src="{{recipe?.image || './assets/recipe.jpg'}}" alt="" class="card-img-top img-thumbnail">
+            <img src="{{recipe.image || './assets/recipe.jpg'}}" alt="" class="card-img-top img-thumbnail">
             <div class="card-body">
                 <div>
-                    <p><strong>Recipe Name: </strong>{{recipe?.title}}</p>
+                    <p><strong>Recipe Name: </strong>{{recipe.title}}</p>
                 </div>
                 <div>
-                    <p><strong>Time: </strong>{{recipe?.time_minutes}} minutes</p>
+                    <p><strong>Time: </strong>{{recipe.time_minutes}} minutes</p>
                 </div>
                 <div>
-                    <p><strong>Price: </strong>{{recipe?.price}}$</p>
+                    <p><strong>Price: </strong>{{recipe.price}}$</p>
                 </div>
                 <div>
-                    <p><strong>Link: </strong>{{recipe?.link}}</p>
+                    <p><strong>Link: </strong>{{recipe.link}}</p>
+                </div>
+                <div>
+                    <button class="btn btn-info col-12" routerLink="/recipe/edit/{{recipe.id}}">Edit</button>
                 </div>
             </div>
         </div>
@@ -21,8 +24,8 @@
     <div class="col-6 bg-light text-dark">
         <tabset class="recipe-tabset" #recipeTabs>
             <tab heading="Description">
-                <h4>Description for how to make {{recipe?.title}}</h4>
-                <p>{{recipe?.description}}</p>
+                <h4>Description for how to make {{recipe.title}}</h4>
+                <p>{{recipe.description}}</p>
             </tab>
             <tab heading="Tags">
                 <h4>Tag</h4>

@@ -1,0 +1,57 @@
+<div class="row" *ngIf="recipe">
+    <div class="col-4">
+        <h1>Edit your recipe</h1>
+    </div>
+    <div class="col-8">
+        <div class="alert alert-info pb-1" *ngIf="editForm.dirty">
+            <p><strong>Information:</strong>You have made changes. Any unsaved changes will be lost</p>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card text-dark bg-secondary">
+            <img src="{{recipe.image || './assets/recipe.jpg'}}" alt="" class="card-img-top img-thumbnail">
+            <div class="card-body">
+                <div>
+                    <p><strong>Recipe Name: </strong>{{recipe.title}}</p>
+                </div>
+                <div>
+                    <p><strong>Time: </strong>{{recipe.time_minutes}} minutes</p>
+                </div>
+                <div>
+                    <p><strong>Price: </strong>{{recipe.price}}$</p>
+                </div>
+                <div>
+                    <p><strong>Link: </strong>{{recipe.link}}</p>
+                </div>
+                <div>
+                    <button type="submit" form="editForm" class="btn btn-success col-12"
+                        [disabled]="!editForm.dirty">Save
+                        Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-4 bg-light text-dark">
+        <tabset class="recipe-tabset" #recipeTabs>
+            <tab heading="Edit Recipe {{recipe.title}}">
+                <form #editForm="ngForm" id="editForm" (ngSubmit)="updateRecipe()">
+                    <h4 class="mt-2">Description</h4>
+                    <textarea class="form-control" [(ngModel)]="recipe.description" name="description"
+                        rows="6"></textarea>
+                    <label for="time">Time</label>
+                    <input class="form-control" [(ngModel)]="recipe.time_minutes" name="time_minutes" />
+                    <label for="link">Link</label>
+                    <input class="form-control" [(ngModel)]="recipe.link" name="link" />
+                    <label for="price">Price</label>
+                    <input class="form-control" [(ngModel)]="recipe.price" name="price" />
+                </form>
+            </tab>
+            <tab heading="Tags">
+                <h4>Tags</h4>
+            </tab>
+            <tab heading="Ingredients">
+                <h4>Ingredients</h4>
+            </tab>
+        </tabset>
+    </div>
+</div>

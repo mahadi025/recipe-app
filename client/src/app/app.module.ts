@@ -13,6 +13,7 @@ import { SharedModule } from './_modules/shared.module';
 import { RecipeCardComponent } from './recipe/recipe-card/recipe-card.component';
 import { RecipeDetailsComponent } from './recipe/recipe-details/recipe-details.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
+import { RecipeEditComponent } from './recipe/recipe-edit/recipe-edit.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
     RecipeListComponent,
     RecipeCardComponent,
     RecipeDetailsComponent,
+    RecipeEditComponent,
   ],
   imports: [
     BrowserModule,
