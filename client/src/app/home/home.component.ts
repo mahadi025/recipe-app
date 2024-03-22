@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AccountService } from '../_services/account.service';
 
 @Component({
   selector: 'app-home',
@@ -6,9 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
-  registerMode = false;
-
-  registerToggle() {
-    this.registerMode = !this.registerMode;
-  }
+  constructor(public accountService: AccountService) {}
 }
