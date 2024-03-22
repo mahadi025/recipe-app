@@ -14,6 +14,7 @@ import { RecipeCardComponent } from './recipe/recipe-card/recipe-card.component'
 import { RecipeDetailsComponent } from './recipe/recipe-details/recipe-details.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { RecipeEditComponent } from './recipe/recipe-edit/recipe-edit.component';
+import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { RecipeEditComponent } from './recipe/recipe-edit/recipe-edit.component'
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })
